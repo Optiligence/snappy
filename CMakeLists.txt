@@ -1,9 +1,6 @@
-project(Snappy C CXX)
+cmake_policy(SET CMP0048 NEW)
+project(Snappy VERSION 1.1.4 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
-
-set(SNAPPY_MAJOR 1)
-set(SNAPPY_MINOR 1)
-set(SNAPPY_PATCHLEVEL 3)
 
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
@@ -99,9 +96,6 @@ install(TARGETS snappy
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
-set_target_properties(snappy PROPERTIES SOVERSION
-        ${SNAPPY_MAJOR}.${SNAPPY_MINOR}.${SNAPPY_PATCHLEVEL})
-
 set(INCLUDE_INSTALL_DIR include)
 set(LIBRARY_INSTALL_DIR lib)
 set(BINARY_INSTALL_DIR bin)
@@ -113,7 +107,6 @@ configure_package_config_file(cmake/SnappyConfig.cmake.in
         )
 
 write_basic_package_version_file(${Snappy_BINARY_DIR}/SnappyConfigVersion.cmake
-        VERSION ${SNAPPY_MAJOR}.${SNAPPY_MINOR}.${SNAPPY_PATCHLEVEL}
         COMPATIBILITY SameMajorVersion)
 install(FILES ${Snappy_BINARY_DIR}/SnappyConfig.cmake
         ${Snappy_BINARY_DIR}/SnappyConfigVersion.cmake
