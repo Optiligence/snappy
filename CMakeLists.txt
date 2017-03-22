@@ -2,6 +2,8 @@ cmake_policy(SET CMP0048 NEW)
 project(Snappy VERSION 1.1.4 LANGUAGES C CXX)
 cmake_minimum_required(VERSION 3.0)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
 include(CheckCXXSourceCompiles)
@@ -81,8 +83,6 @@ add_library(snappy SHARED
 
 target_compile_definitions(snappy PRIVATE -DHAVE_CONFIG_H)
 
-target_include_directories(snappy BEFORE PRIVATE ${Snappy_SOURCE_DIR})
-target_include_directories(snappy PUBLIC ${Snappy_BINARY_DIR})
 set_target_properties(snappy PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 install(FILES snappy.h
