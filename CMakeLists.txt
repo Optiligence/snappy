@@ -71,7 +71,7 @@ if (WIN32)
 endif (WIN32)
 
 # Define the main library.
-add_library(snappy SHARED
+add_library(Snappy SHARED
         snappy-c.cc
         snappy-c.h
         snappy-sinksource.cc
@@ -81,9 +81,9 @@ add_library(snappy SHARED
         snappy.cc
         snappy.h)
 
-target_compile_definitions(snappy PRIVATE -DHAVE_CONFIG_H)
+target_compile_definitions(Snappy PRIVATE -DHAVE_CONFIG_H)
 
-set_target_properties(snappy PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+set_target_properties(Snappy PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON OUTPUT_NAME snappy)
 
 install(FILES snappy.h
         snappy-c.h
@@ -91,7 +91,7 @@ install(FILES snappy.h
         ${Snappy_BINARY_DIR}/snappy-stubs-public.h
         DESTINATION include)
 
-install(TARGETS snappy
+install(TARGETS Snappy
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
@@ -136,7 +136,7 @@ endif (HAVE_LIBQUICKLZ)
 
 add_executable(snappy-unittest snappy_unittest.cc snappy-test.cc)
 target_compile_definitions(snappy-unittest PRIVATE -DHAVE_CONFIG_H)
-target_link_libraries(snappy-unittest snappy ${COMPRESSION_LIBS})
+target_link_libraries(snappy-unittest Snappy ${COMPRESSION_LIBS})
 target_include_directories(snappy-unittest BEFORE PRIVATE ${Snappy_SOURCE_DIR})
 
 add_test(NAME snappy-unittest
