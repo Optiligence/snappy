@@ -4,6 +4,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+option(BUILD_SHARED_LIBS "Enable to build the shared version of the library or disable to build the static version" ON)
+
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
 INCLUDE(CheckCXXSourceCompiles)
@@ -71,7 +73,7 @@ IF (WIN32)
 ENDIF (WIN32)
 
 # Define the main library.
-ADD_LIBRARY(Snappy SHARED
+ADD_LIBRARY(Snappy
         snappy-c.cc
         snappy-c.h
         snappy-sinksource.cc
@@ -92,12 +94,17 @@ INSTALL(FILES snappy.h
         ${Snappy_BINARY_DIR}/snappy-stubs-public.h
         DESTINATION include)
 
+if (BUILD_SHARED_LIBS)
+    set(ExportSet SnappySharedTargets)
+else()
+    set(ExportSet SnappyStaticTargets)
+endif()
 INSTALL(TARGETS Snappy
-        EXPORT SnappyTargets
+        EXPORT ${ExportSet}
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
-install(EXPORT SnappyTargets NAMESPACE Snappy:: DESTINATION lib/cmake/Snappy)
+install(EXPORT ${ExportSet} NAMESPACE Snappy:: DESTINATION lib/cmake/Snappy)
 
 SET(INCLUDE_INSTALL_DIR include)
 SET(LIBRARY_INSTALL_DIR lib)
