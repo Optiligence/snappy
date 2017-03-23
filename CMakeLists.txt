@@ -85,6 +85,7 @@ TARGET_COMPILE_DEFINITIONS(Snappy PRIVATE -DHAVE_CONFIG_H)
 
 SET_TARGET_PROPERTIES(Snappy PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON OUTPUT_NAME snappy)
 
+target_include_directories(Snappy INTERFACE $<INSTALL_INTERFACE:include>)
 INSTALL(FILES snappy.h
         snappy-c.h
         snappy-sinksource.h
@@ -92,9 +93,11 @@ INSTALL(FILES snappy.h
         DESTINATION include)
 
 INSTALL(TARGETS Snappy
+        EXPORT SnappyTargets
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
+install(EXPORT SnappyTargets NAMESPACE Snappy:: DESTINATION lib/cmake/Snappy)
 
 SET(INCLUDE_INSTALL_DIR include)
 SET(LIBRARY_INSTALL_DIR lib)
